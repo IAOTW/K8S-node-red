@@ -10,18 +10,18 @@ spec:
   selector:
     matchLabels:
       app: node-red-pod # spec.selector是必填项, 目的是去找pod
-  template: # template是对pod的定义
+  template: # template是对pod的具体定义
     metadata:
       labels:
-        app: "node-red-pod" #spec.template.metadata.labels是必填项, 目的是为上面selector提供labels
+        app: "node-red-pod" #必填项, 其实就是pod的labels, 目的是为上面selector提供labels
     spec:
-      volumes:
-      - name: node-red-flows
+      volumes: # 声明container可能要用到的volumes
+      - name: node-red-configmap
         configMap:
-          name: node-red-flows
+          name: node-red-flows # 绑定configmap.yml下metadata.name
       - name: node-red-pv-storage
         persistentVolumeClaim:
-          claimName: node-red-pvc
+          claimName: node-red-pvc # 绑定pvc.yml下metadata.name
       containers:
       - name: "node-red"
         image: dockerhub.qingcloud.com/ifcloud/node-red:v1.0
@@ -35,10 +35,10 @@ spec:
         env:
           - name: PORT
             value: "1880"
-        volumeMounts:
-        - name: "node-red-pv-storage"
+        volumeMounts: # 对spec.volumes下声明的volumes配置具体的挂载
+        - name: "node-red-pv-storage" # 使用上面spec.volumes中的node-red-pv-storage
           mountPath: "/data"
-        - name: node-red-flows
+        - name: node-red-flows-configmap # 使用上面spec.volumes中的node-red-flows-configmap
           mountPath: /data/flows.json
           subPath: flows.json
         resources:

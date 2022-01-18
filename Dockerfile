@@ -8,4 +8,4 @@ RUN apk add ipmitool
 
 USER node-red
 
-# docker build . -t dockerhub.qingcloud.com/ifcloud/node-red:v1.0
+# docker build . -t node-red/my-node-red:v1.0
