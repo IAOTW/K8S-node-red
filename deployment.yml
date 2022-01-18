@@ -13,7 +13,7 @@ spec:
   template: # template是对pod的具体定义
     metadata:
       labels:
-        app: "node-red-pod" #必填项, 其实就是pod的labels, 目的是为上面selector提供labels
+        app: "node-red-pod" # 必填项, 其实就是pod的labels, 目的是为上面selector提供labels
     spec:
       volumes: # 声明container可能要用到的volumes
       - name: node-red-configmap
