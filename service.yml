@@ -13,3 +13,30 @@ spec:
   - name: web
     port: 1880
     nodePort: 31880
+
+# K8S中的四种Port: NPTC(牛排套餐)
+# nodePort        提供了集群外部客户端访问service的端口, 即nodeIP:nodePort
+# port            暴露在ClusterIP上的端口, 提供了集群内部客户端访问service的入口, 即clusterIP:Port
+# targetPort      pod上暴露出来的的端口, targetPort映射到containerPort
+# containerPort   容器需要暴露的端口
+
+# [root@master node-red-k8s]# kubectl describe svc -n node-red
+# Name:                     node-red-svc
+# Namespace:                node-red
+# Labels:                   app=node-red
+# Selector:                 app=node-red-pod
+# Type:                     NodePort
+# IP:                       10.233.32.222
+# Port:                     web  1880/TCP
+# TargetPort:               1880/TCP
+# NodePort:                 web  31880/TCP
+# Endpoints:                10.233.90.95:1880,10.233.90.96:1880
+# External Traffic Policy:  Cluster
+
+# [root@master node-red-k8s]# kubectl get svc -n node-red
+# NAME           TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+# node-red-svc   NodePort   10.233.32.222   <none>        1880:31880/TCP   104m
+
+# 可以访问的IP:Port
+# curl 10.233.32.222:1880 # CLUSTER-IP:Port
+# curl 192.168.25.5:31880 # node-IP:nodePort
