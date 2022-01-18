@@ -24,7 +24,7 @@ spec:
           claimName: node-red-pvc # 绑定pvc.yml下metadata.name
       containers:
       - name: "node-red"
-        image: dockerhub.qingcloud.com/ifcloud/node-red:v1.0
+        image: node-red/my-node-red:v1.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
