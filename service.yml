@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "node-red-svc"
+  namespace: "node-red"
+  labels:
+    app: node-red
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    port: 1880
+    nodePort: 31880
+  selector:
+    app: "node-red-pod" # service的selector找的是pod, 而不是deployment!

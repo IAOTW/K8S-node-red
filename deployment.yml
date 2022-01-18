@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "node-red"
+  namespace: "node-red"
+  labels:
+    app: node-red
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-red-pod # spec.selector是必填项, 目的是去找pod
+  template: # template是对pod的定义
+    metadata:
+      labels:
+        app: "node-red-pod" #spec.template.metadata.labels是必填项, 目的是为上面selector提供labels
+    spec:
+      volumes:
+      - name: node-red-flows
+        configMap:
+          name: node-red-flows
+      - name: node-red-pv-storage
+        persistentVolumeClaim:
+          claimName: node-red-pvc
+      containers:
+      - name: "node-red"
+        image: dockerhub.qingcloud.com/ifcloud/node-red:v1.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 1880
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        env:
+          - name: PORT
+            value: "1880"
+        volumeMounts:
+        - name: "node-red-pv-storage"
+          mountPath: "/data"
+        - name: node-red-flows
+          mountPath: /data/flows.json
+          subPath: flows.json
+        resources:
+          limits:
+            cpu: 1024m
+            memory: 1Gi
+          requests:
+            cpu: 1024m
+            memory: 1Gi

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "node-red-pvc"
+  namespace: "node-red"
+  labels:
+    app: "node-red"
+spec:
+  storageClassName: "local" # 因为查看了下本地有一个local的storageClassName
+  accessModes:
+    - ReadWriteOnce # 本地已有的storageClassName仅支持RWO
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,719 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-red-flows
+  namespace: node-red
+data:
+  flows.json: |
+    [
+        {
+            "id": "42f89ad2e677edb7",
+            "type": "tab",
+            "label": "IPMI",
+            "disabled": false,
+            "info": ""
+        },
+        {
+            "id": "f6c4f1593226a2c3",
+            "type": "tab",
+            "label": "TestFlows",
+            "disabled": false,
+            "info": "",
+            "env": []
+        },
+        {
+            "id": "ebe51e692bcee22f",
+            "type": "exec",
+            "z": "42f89ad2e677edb7",
+            "command": "apk add ipmitool",
+            "addpay": "",
+            "append": "",
+            "useSpawn": "false",
+            "timer": "",
+            "winHide": false,
+            "oldrc": false,
+            "name": "",
+            "x": 500,
+            "y": 2520,
+            "wires": [
+                [
+                    "1e361a13c857d9fa"
+                ],
+                [
+                    "1e361a13c857d9fa"
+                ],
+                [
+                    "1e361a13c857d9fa"
+                ]
+            ]
+        },
+        {
+            "id": "248f4bb2cc0b6075",
+            "type": "http in",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "url": "/apk",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 240,
+            "y": 2520,
+            "wires": [
+                [
+                    "ebe51e692bcee22f"
+                ]
+            ]
+        },
+        {
+            "id": "a2157ca5fa7d3999",
+            "type": "http response",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1030,
+            "y": 2520,
+            "wires": []
+        },
+        {
+            "id": "1e361a13c857d9fa",
+            "type": "join",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "mode": "custom",
+            "build": "array",
+            "property": "payload",
+            "propertyType": "msg",
+            "key": "m",
+            "joiner": "\\n",
+            "joinerType": "str",
+            "accumulate": false,
+            "timeout": "3",
+            "count": "3",
+            "reduceRight": false,
+            "reduceExp": "",
+            "reduceInit": "",
+            "reduceInitType": "num",
+            "reduceFixup": "",
+            "x": 690,
+            "y": 2520,
+            "wires": [
+                [
+                    "563cd5e339c5190c"
+                ]
+            ]
+        },
+        {
+            "id": "563cd5e339c5190c",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "func": "res = msg.payload;\nmsg.payload = {};\nvar code = 0, data = \"\";\nfor (var i = 0; i < res.length; i ++) {  //遍历数组\n    if (typeof res[i] == \"object\")\n        code = res[i][\"code\"];\n    else data = res[i];\n}\nmsg.payload[\"data\"] = data;\nmsg.payload[\"code\"] = code;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 820,
+            "y": 2520,
+            "wires": [
+                [
+                    "a2157ca5fa7d3999"
+                ]
+            ]
+        },
+        {
+            "id": "5e3132858f7267d9",
+            "type": "switch",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "property": "req.body.version",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "eq",
+                    "v": "1.5",
+                    "vt": "str"
+                },
+                {
+                    "t": "eq",
+                    "v": "2.0",
+                    "vt": "str"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 2,
+            "x": 310,
+            "y": 120,
+            "wires": [
+                [
+                    "464a88845cacab83"
+                ],
+                [
+                    "e52b867d0dfc6f6d"
+                ]
+            ]
+        },
+        {
+            "id": "cd87bd2661a492b8",
+            "type": "http in",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "url": "/ipmi",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 160,
+            "y": 120,
+            "wires": [
+                [
+                    "5e3132858f7267d9"
+                ]
+            ]
+        },
+        {
+            "id": "734c5e396d35f230",
+            "type": "switch",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "property": "req.body.option",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "eq",
+                    "v": "fru",
+                    "vt": "str"
+                },
+                {
+                    "t": "eq",
+                    "v": "power",
+                    "vt": "str"
+                },
+                {
+                    "t": "eq",
+                    "v": "pxe",
+                    "vt": "str"
+                },
+                {
+                    "t": "eq",
+                    "v": "consumption",
+                    "vt": "str"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 4,
+            "x": 630,
+            "y": 120,
+            "wires": [
+                [
+                    "34af57e446a12ac4"
+                ],
+                [
+                    "bd22d2aabe18d405"
+                ],
+                [
+                    "32960a042e94b662"
+                ],
+                [
+                    "8a51b7cbaf372f7d"
+                ]
+            ]
+        },
+        {
+            "id": "34af57e446a12ac4",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "fru",
+            "func": "msg.payload[\"additon_cmd\"] = \" fru print 0\";\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 810,
+            "y": 60,
+            "wires": [
+                [
+                    "900fd7e5cd2f708f"
+                ]
+            ]
+        },
+        {
+            "id": "bd22d2aabe18d405",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "power",
+            "func": "var actionCode = msg.payload[\"actionCode\"];\nmsg.payload[\"additon_cmd\"] = \" power \" + actionCode;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 810,
+            "y": 100,
+            "wires": [
+                [
+                    "900fd7e5cd2f708f"
+                ]
+            ]
+        },
+        {
+            "id": "32960a042e94b662",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "pxe",
+            "func": "msg.payload[\"additon_cmd\"] = \" chassis bootdev pxe\";\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 810,
+            "y": 140,
+            "wires": [
+                [
+                    "900fd7e5cd2f708f"
+                ]
+            ]
+        },
+        {
+            "id": "8a51b7cbaf372f7d",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "consum",
+            "func": "msg.payload[\"additon_cmd\"] = ' sdr elist | grep \"Pwr Consumption\"';\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 820,
+            "y": 180,
+            "wires": [
+                [
+                    "900fd7e5cd2f708f"
+                ]
+            ]
+        },
+        {
+            "id": "900fd7e5cd2f708f",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "cmd extra input",
+            "func": "params = msg.req.body;\naddress = params[\"address\"];\nuser = params[\"user\"];\npassword = params[\"password\"];\ninf = params[\"inf\"];\nadditon_cmd = params[\"additon_cmd\"];\n\ncmd = \"-I \" + inf + \" -H \" + address + \" -U \" + user + \" -P \" + password + additon_cmd;\nmsg.payload = cmd;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 1060,
+            "y": 120,
+            "wires": [
+                [
+                    "2548ceb7c7c6b647"
+                ]
+            ]
+        },
+        {
+            "id": "2548ceb7c7c6b647",
+            "type": "exec",
+            "z": "42f89ad2e677edb7",
+            "command": "ipmitool",
+            "addpay": "payload",
+            "append": "",
+            "useSpawn": "false",
+            "timer": "5",
+            "winHide": true,
+            "oldrc": false,
+            "name": "exec cmd",
+            "x": 540,
+            "y": 360,
+            "wires": [
+                [
+                    "dacf656f6939f37b"
+                ],
+                [
+                    "cc3a5171eac06706"
+                ],
+                [
+                    "76ce4ff143ece18f"
+                ]
+            ]
+        },
+        {
+            "id": "dd42f8809db67f7c",
+            "type": "http response",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1010,
+            "y": 360,
+            "wires": []
+        },
+        {
+            "id": "41e2eda8b1400a54",
+            "type": "join",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "mode": "custom",
+            "build": "merged",
+            "property": "payload",
+            "propertyType": "msg",
+            "key": "key",
+            "joiner": "\\n",
+            "joinerType": "str",
+            "accumulate": false,
+            "timeout": "3",
+            "count": "2",
+            "reduceRight": false,
+            "reduceExp": "",
+            "reduceInit": "",
+            "reduceInitType": "num",
+            "reduceFixup": "",
+            "x": 870,
+            "y": 360,
+            "wires": [
+                [
+                    "dd42f8809db67f7c"
+                ]
+            ]
+        },
+        {
+            "id": "dacf656f6939f37b",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "stdout",
+            "func": "var res = msg.payload;\nmsg.payload = {};\nmsg.payload[\"data\"] = res;\nreturn msg;\n",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 690,
+            "y": 320,
+            "wires": [
+                [
+                    "41e2eda8b1400a54"
+                ]
+            ]
+        },
+        {
+            "id": "cc3a5171eac06706",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "stderr",
+            "func": "var res = msg.payload;\nmsg.payload = {};\nmsg.payload[\"error\"] = res;\nreturn msg;\n",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 690,
+            "y": 360,
+            "wires": [
+                [
+                    "41e2eda8b1400a54"
+                ]
+            ]
+        },
+        {
+            "id": "76ce4ff143ece18f",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "stdcode",
+            "func": "\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 700,
+            "y": 400,
+            "wires": [
+                [
+                    "41e2eda8b1400a54"
+                ]
+            ]
+        },
+        {
+            "id": "e52b867d0dfc6f6d",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "version2.0",
+            "func": "msg.payload[\"inf\"] = \"lanplus\";\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 470,
+            "y": 140,
+            "wires": [
+                [
+                    "734c5e396d35f230"
+                ]
+            ]
+        },
+        {
+            "id": "464a88845cacab83",
+            "type": "function",
+            "z": "42f89ad2e677edb7",
+            "name": "version1.5",
+            "func": "msg.payload[\"inf\"] = \"lan\";\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 470,
+            "y": 100,
+            "wires": [
+                [
+                    "734c5e396d35f230"
+                ]
+            ]
+        },
+        {
+            "id": "e68097d99a0b7923",
+            "type": "exec",
+            "z": "f6c4f1593226a2c3",
+            "command": "ipmitool",
+            "addpay": "payload",
+            "append": "",
+            "useSpawn": "false",
+            "timer": "5",
+            "winHide": true,
+            "oldrc": false,
+            "name": "exec cmd",
+            "x": 620,
+            "y": 260,
+            "wires": [
+                [
+                    "c0fee96b9b81e8f2"
+                ],
+                [
+                    "c0fee96b9b81e8f2"
+                ],
+                [
+                    "c0fee96b9b81e8f2"
+                ]
+            ]
+        },
+        {
+            "id": "6dfd2b4d6da46962",
+            "type": "http response",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1130,
+            "y": 260,
+            "wires": []
+        },
+        {
+            "id": "c0fee96b9b81e8f2",
+            "type": "join",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "mode": "custom",
+            "build": "array",
+            "property": "payload",
+            "propertyType": "msg",
+            "key": "m",
+            "joiner": "\\n",
+            "joinerType": "str",
+            "accumulate": false,
+            "timeout": "5",
+            "count": "5",
+            "reduceRight": false,
+            "reduceExp": "",
+            "reduceInit": "",
+            "reduceInitType": "num",
+            "reduceFixup": "",
+            "x": 770,
+            "y": 260,
+            "wires": [
+                [
+                    "85d1b1bed86add08"
+                ]
+            ]
+        },
+        {
+            "id": "85d1b1bed86add08",
+            "type": "function",
+            "z": "f6c4f1593226a2c3",
+            "name": "Packaging output",
+            "func": "res = msg.payload;\nmsg.payload = {};\nvar code = 0, data = \"\";\nfor (var i = 0; i < res.length; i ++) {  //遍历数组\n    if (typeof res[i] == \"object\")\n        code = res[i][\"code\"];\n    else data = res[i];\n}\nmsg.payload[\"data\"] = data;\nmsg.payload[\"code\"] = code;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 950,
+            "y": 260,
+            "wires": [
+                [
+                    "6dfd2b4d6da46962"
+                ]
+            ]
+        },
+        {
+            "id": "3b4381c1b5fc7871",
+            "type": "function",
+            "z": "f6c4f1593226a2c3",
+            "name": "cmd extra input",
+            "func": "params = msg.req.body;\naddress = params[\"address\"];\nuser = params[\"user\"];\npassword = params[\"password\"];\n\ntry {\n    var actionCode = params[\"actionCode\"];\n}\ncatch(err) {\n    actionCode = \"do nothing\";\n}\n\nvar inf = \"\";\nvar version = params[\"version\"];\nswitch (true) {\n    case version == \"1.5\":\n        inf=\" lan\";\n        break;\n    case version == \"2.0\":\n        inf=\" lanplus\";\n        break;\n}\n\nvar additon_cmd = \"\";\nvar option = params[\"option\"];\nswitch (true) {\n    case option == \"fru\":\n        additon_cmd=\" fru print 0\";\n        break;\n    case option == \"power\":\n        additon_cmd=\" power \" + actionCode;\n        break;\n    case option == \"pxe\":\n        additon_cmd=\" chassis bootdev pxe\";\n        break;\n    case option == \"consumption\":\n        additon_cmd=' sdr elist | grep \"Pwr Consumption\"';\n        break;\n}\n\ncmd = \" -I\" + inf + \" -H \" + address + \" -U \" + user + \" -P \" + password + additon_cmd;\n\nmsg.payload = cmd;\n\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 440,
+            "y": 260,
+            "wires": [
+                [
+                    "e68097d99a0b7923"
+                ]
+            ]
+        },
+        {
+            "id": "b64e200df7e53340",
+            "type": "http in",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "url": "/ipmiOld",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 250,
+            "y": 260,
+            "wires": [
+                [
+                    "3b4381c1b5fc7871"
+                ]
+            ]
+        },
+        {
+            "id": "5efb5e33801f52b6",
+            "type": "exec",
+            "z": "f6c4f1593226a2c3",
+            "command": "ipmitool",
+            "addpay": "payload",
+            "append": "",
+            "useSpawn": "false",
+            "timer": "5",
+            "winHide": true,
+            "oldrc": false,
+            "name": "exec cmd",
+            "x": 620,
+            "y": 420,
+            "wires": [
+                [
+                    "e46754816ea03cb6"
+                ],
+                [
+                    "e46754816ea03cb6"
+                ],
+                [
+                    "e46754816ea03cb6"
+                ]
+            ]
+        },
+        {
+            "id": "480e5163a1312135",
+            "type": "http response",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1130,
+            "y": 420,
+            "wires": []
+        },
+        {
+            "id": "e46754816ea03cb6",
+            "type": "join",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "mode": "custom",
+            "build": "array",
+            "property": "payload",
+            "propertyType": "msg",
+            "key": "m",
+            "joiner": "\\n",
+            "joinerType": "str",
+            "accumulate": false,
+            "timeout": "5",
+            "count": "5",
+            "reduceRight": false,
+            "reduceExp": "",
+            "reduceInit": "",
+            "reduceInitType": "num",
+            "reduceFixup": "",
+            "x": 770,
+            "y": 420,
+            "wires": [
+                [
+                    "b0549f53653b310d"
+                ]
+            ]
+        },
+        {
+            "id": "b0549f53653b310d",
+            "type": "function",
+            "z": "f6c4f1593226a2c3",
+            "name": "Packaging output",
+            "func": "res = msg.payload;\nmsg.payload = {};\nvar code = 0, data = \"\";\nfor (var i = 0; i < res.length; i ++) {  //遍历数组\n    if (typeof res[i] == \"object\")\n        code = res[i][\"code\"];\n    else data = res[i];\n}\nmsg.payload[\"data\"] = data;\nmsg.payload[\"code\"] = code;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 950,
+            "y": 420,
+            "wires": [
+                [
+                    "480e5163a1312135"
+                ]
+            ]
+        },
+        {
+            "id": "283aae39b00f13df",
+            "type": "function",
+            "z": "f6c4f1593226a2c3",
+            "name": "cmd extra input",
+            "func": "params = msg.req.body;\naddress = params[\"address\"];\nuser = params[\"user\"];\npassword = params[\"password\"];\n\ntry {\n    var actionCode = params[\"actionCode\"];\n}\ncatch(err) {\n    actionCode = \"do nothing\";\n}\n\nvar inf = \"\";\nvar version = params[\"version\"];\nswitch (true) {\n    case version == \"1.5\":\n        inf=\" lan\";\n        break;\n    case version == \"2.0\":\n        inf=\" lanplus\";\n        break;\n}\n\nvar additon_cmd = \"\";\nvar option = params[\"option\"];\nswitch (true) {\n    case option == \"fru\":\n        additon_cmd=\" fru print 0\";\n        break;\n    case option == \"power\":\n        additon_cmd=\" power \" + actionCode;\n        break;\n    case option == \"pxe\":\n        additon_cmd=\" chassis bootdev pxe\";\n        break;\n    case option == \"consumption\":\n        additon_cmd=' sdr elist | grep \"Pwr Consumption\"';\n        break;\n}\n\ncmd = \" -I\" + inf + \" -H \" + address + \" -U \" + user + \" -P \" + password + additon_cmd;\n\nmsg.payload = cmd;\n\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 440,
+            "y": 420,
+            "wires": [
+                [
+                    "5efb5e33801f52b6"
+                ]
+            ]
+        },
+        {
+            "id": "558021c191d6a25d",
+            "type": "http in",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "url": "/ipmitest",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 250,
+            "y": 420,
+            "wires": [
+                [
+                    "283aae39b00f13df"
+                ]
+            ]
+        }
+    ]
