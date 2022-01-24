@@ -38,7 +38,7 @@ spec:
         volumeMounts: # 对spec.volumes下声明的volumes配置具体的挂载
         - name: "node-red-pv-storage" # 使用上面spec.volumes中的node-red-pv-storage
           mountPath: "/data"
-        - name: node-red-flows-configmap # 使用上面spec.volumes中的node-red-flows-configmap
+        - name: node-red-configmap # 使用上面spec.volumes中的node-red-configmap
           mountPath: /data/flows.json
           subPath: flows.json
         resources:
