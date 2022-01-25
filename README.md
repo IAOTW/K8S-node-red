@@ -4,6 +4,8 @@
 
 `docker build . -t node-red/my-node-red:v1.0`
 
+`kubectl create ns node-red`
+
 `kubectl -f pvc.yml create`
 
 `kubectl -f configmap.yml create`
