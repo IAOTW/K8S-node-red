@@ -1,4 +1,4 @@
-# K8S-node-red-demo
+# K8S-node-red
 
 ### deploy node-red in k8s
 
