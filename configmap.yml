@@ -22,105 +22,26 @@ data:
             "env": []
         },
         {
-            "id": "ebe51e692bcee22f",
-            "type": "exec",
-            "z": "42f89ad2e677edb7",
-            "command": "apk add ipmitool",
-            "addpay": "",
-            "append": "",
-            "useSpawn": "false",
-            "timer": "",
-            "winHide": false,
-            "oldrc": false,
-            "name": "",
-            "x": 500,
-            "y": 2520,
-            "wires": [
-                [
-                    "1e361a13c857d9fa"
-                ],
-                [
-                    "1e361a13c857d9fa"
-                ],
-                [
-                    "1e361a13c857d9fa"
-                ]
-            ]
+            "id": "8cdf5814effa408c",
+            "type": "tab",
+            "label": "Redfish",
+            "disabled": false,
+            "info": "",
+            "env": []
         },
         {
-            "id": "248f4bb2cc0b6075",
-            "type": "http in",
-            "z": "42f89ad2e677edb7",
+            "id": "57fa17962ce04fe7",
+            "type": "tls-config",
             "name": "",
-            "url": "/apk",
-            "method": "post",
-            "upload": false,
-            "swaggerDoc": "",
-            "x": 240,
-            "y": 2520,
-            "wires": [
-                [
-                    "ebe51e692bcee22f"
-                ]
-            ]
-        },
-        {
-            "id": "a2157ca5fa7d3999",
-            "type": "http response",
-            "z": "42f89ad2e677edb7",
-            "name": "",
-            "statusCode": "",
-            "headers": {},
-            "x": 1030,
-            "y": 2520,
-            "wires": []
-        },
-        {
-            "id": "1e361a13c857d9fa",
-            "type": "join",
-            "z": "42f89ad2e677edb7",
-            "name": "",
-            "mode": "custom",
-            "build": "array",
-            "property": "payload",
-            "propertyType": "msg",
-            "key": "m",
-            "joiner": "\\n",
-            "joinerType": "str",
-            "accumulate": false,
-            "timeout": "3",
-            "count": "3",
-            "reduceRight": false,
-            "reduceExp": "",
-            "reduceInit": "",
-            "reduceInitType": "num",
-            "reduceFixup": "",
-            "x": 690,
-            "y": 2520,
-            "wires": [
-                [
-                    "563cd5e339c5190c"
-                ]
-            ]
-        },
-        {
-            "id": "563cd5e339c5190c",
-            "type": "function",
-            "z": "42f89ad2e677edb7",
-            "name": "",
-            "func": "res = msg.payload;\nmsg.payload = {};\nvar code = 0, data = \"\";\nfor (var i = 0; i < res.length; i ++) {  //遍历数组\n    if (typeof res[i] == \"object\")\n        code = res[i][\"code\"];\n    else data = res[i];\n}\nmsg.payload[\"data\"] = data;\nmsg.payload[\"code\"] = code;\nreturn msg;",
-            "outputs": 1,
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 820,
-            "y": 2520,
-            "wires": [
-                [
-                    "a2157ca5fa7d3999"
-                ]
-            ]
+            "cert": "",
+            "key": "",
+            "ca": "",
+            "certname": "",
+            "keyname": "",
+            "caname": "",
+            "servername": "",
+            "verifyservercert": false,
+            "alpnprotocol": ""
         },
         {
             "id": "5e3132858f7267d9",
@@ -312,7 +233,8 @@ data:
             "y": 120,
             "wires": [
                 [
-                    "2548ceb7c7c6b647"
+                    "2548ceb7c7c6b647",
+                    "8ad07339ec7367f1"
                 ]
             ]
         },
@@ -477,6 +399,23 @@ data:
             ]
         },
         {
+            "id": "8ad07339ec7367f1",
+            "type": "debug",
+            "z": "42f89ad2e677edb7",
+            "name": "",
+            "active": true,
+            "tosidebar": true,
+            "console": false,
+            "tostatus": false,
+            "complete": "payload",
+            "targetType": "msg",
+            "statusVal": "",
+            "statusType": "auto",
+            "x": 1270,
+            "y": 120,
+            "wires": []
+        },
+        {
             "id": "e68097d99a0b7923",
             "type": "exec",
             "z": "f6c4f1593226a2c3",
@@ -488,7 +427,7 @@ data:
             "winHide": true,
             "oldrc": false,
             "name": "exec cmd",
-            "x": 620,
+            "x": 720,
             "y": 260,
             "wires": [
                 [
@@ -509,7 +448,7 @@ data:
             "name": "",
             "statusCode": "",
             "headers": {},
-            "x": 1130,
+            "x": 1230,
             "y": 260,
             "wires": []
         },
@@ -533,7 +472,7 @@ data:
             "reduceInit": "",
             "reduceInitType": "num",
             "reduceFixup": "",
-            "x": 770,
+            "x": 870,
             "y": 260,
             "wires": [
                 [
@@ -552,7 +491,7 @@ data:
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 950,
+            "x": 1050,
             "y": 260,
             "wires": [
                 [
@@ -571,7 +510,7 @@ data:
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 440,
+            "x": 540,
             "y": 260,
             "wires": [
                 [
@@ -588,7 +527,7 @@ data:
             "method": "post",
             "upload": false,
             "swaggerDoc": "",
-            "x": 250,
+            "x": 350,
             "y": 260,
             "wires": [
                 [
@@ -608,8 +547,8 @@ data:
             "winHide": true,
             "oldrc": false,
             "name": "exec cmd",
-            "x": 620,
-            "y": 420,
+            "x": 720,
+            "y": 400,
             "wires": [
                 [
                     "e46754816ea03cb6"
@@ -629,8 +568,8 @@ data:
             "name": "",
             "statusCode": "",
             "headers": {},
-            "x": 1130,
-            "y": 420,
+            "x": 1230,
+            "y": 400,
             "wires": []
         },
         {
@@ -653,8 +592,8 @@ data:
             "reduceInit": "",
             "reduceInitType": "num",
             "reduceFixup": "",
-            "x": 770,
-            "y": 420,
+            "x": 870,
+            "y": 400,
             "wires": [
                 [
                     "b0549f53653b310d"
@@ -672,8 +611,8 @@ data:
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 950,
-            "y": 420,
+            "x": 1050,
+            "y": 400,
             "wires": [
                 [
                     "480e5163a1312135"
@@ -691,8 +630,8 @@ data:
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 440,
-            "y": 420,
+            "x": 540,
+            "y": 400,
             "wires": [
                 [
                     "5efb5e33801f52b6"
@@ -708,12 +647,618 @@ data:
             "method": "post",
             "upload": false,
             "swaggerDoc": "",
-            "x": 250,
-            "y": 420,
+            "x": 350,
+            "y": 400,
             "wires": [
                 [
                     "283aae39b00f13df"
                 ]
             ]
+        },
+        {
+            "id": "ae4cb4b1c3a16fbe",
+            "type": "http in",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "url": "/ping",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 340,
+            "y": 120,
+            "wires": [
+                [
+                    "edc942ceb7a2006a"
+                ]
+            ]
+        },
+        {
+            "id": "edc942ceb7a2006a",
+            "type": "http response",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "statusCode": "200",
+            "headers": {},
+            "x": 1220,
+            "y": 120,
+            "wires": []
+        },
+        {
+            "id": "6964ee3ce0085074",
+            "type": "comment",
+            "z": "f6c4f1593226a2c3",
+            "name": "readinessProbe",
+            "info": "# readinessProbe",
+            "x": 180,
+            "y": 120,
+            "wires": []
+        },
+        {
+            "id": "06efa69c72fc8f8a",
+            "type": "exec",
+            "z": "f6c4f1593226a2c3",
+            "command": "apk add ipmitool",
+            "addpay": "",
+            "append": "",
+            "useSpawn": "false",
+            "timer": "",
+            "winHide": false,
+            "oldrc": false,
+            "name": "",
+            "x": 580,
+            "y": 560,
+            "wires": [
+                [
+                    "1cc80fdb7636cc11"
+                ],
+                [
+                    "1cc80fdb7636cc11"
+                ],
+                [
+                    "1cc80fdb7636cc11"
+                ]
+            ]
+        },
+        {
+            "id": "d6b06807624175c1",
+            "type": "http in",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "url": "/apk",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 340,
+            "y": 560,
+            "wires": [
+                [
+                    "06efa69c72fc8f8a"
+                ]
+            ]
+        },
+        {
+            "id": "32d06b56963ee919",
+            "type": "http response",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1250,
+            "y": 560,
+            "wires": []
+        },
+        {
+            "id": "1cc80fdb7636cc11",
+            "type": "join",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "mode": "custom",
+            "build": "array",
+            "property": "payload",
+            "propertyType": "msg",
+            "key": "m",
+            "joiner": "\\n",
+            "joinerType": "str",
+            "accumulate": false,
+            "timeout": "3",
+            "count": "3",
+            "reduceRight": false,
+            "reduceExp": "",
+            "reduceInit": "",
+            "reduceInitType": "num",
+            "reduceFixup": "",
+            "x": 830,
+            "y": 560,
+            "wires": [
+                [
+                    "632fd282ae1cf7eb"
+                ]
+            ]
+        },
+        {
+            "id": "632fd282ae1cf7eb",
+            "type": "function",
+            "z": "f6c4f1593226a2c3",
+            "name": "",
+            "func": "res = msg.payload;\nmsg.payload = {};\nvar code = 0, data = \"\";\nfor (var i = 0; i < res.length; i ++) {  //遍历数组\n    if (typeof res[i] == \"object\")\n        code = res[i][\"code\"];\n    else data = res[i];\n}\nmsg.payload[\"data\"] = data;\nmsg.payload[\"code\"] = code;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 1040,
+            "y": 560,
+            "wires": [
+                [
+                    "32d06b56963ee919"
+                ]
+            ]
+        },
+        {
+            "id": "4e6bd7f5cf7b30d0",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 410,
+            "y": 60,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "b47db06ec2cd144a",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/SessionService",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 470,
+            "y": 100,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "04ad3078d7b4ce29",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "session服务",
+            "info": "",
+            "x": 230,
+            "y": 100,
+            "wires": []
+        },
+        {
+            "id": "50eaeeedaefba56f",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "redfish版本查看",
+            "info": "",
+            "x": 220,
+            "y": 60,
+            "wires": []
+        },
+        {
+            "id": "d8ec20280853f842",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "CPU列表/明细",
+            "info": "",
+            "x": 230,
+            "y": 260,
+            "wires": []
+        },
+        {
+            "id": "f5d4740ea445bb75",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Sessions",
+            "method": "post",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 450,
+            "y": 140,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "3cb5d808b2c2b087",
+            "type": "http request",
+            "z": "8cdf5814effa408c",
+            "name": "forward",
+            "method": "use",
+            "ret": "txt",
+            "paytoqs": "ignore",
+            "url": "",
+            "tls": "57fa17962ce04fe7",
+            "persist": false,
+            "proxy": "",
+            "authType": "",
+            "senderr": false,
+            "x": 1180,
+            "y": 200,
+            "wires": [
+                [
+                    "4eccfe1c7bf04e20",
+                    "d6f0517fd2a7e8f5"
+                ]
+            ]
+        },
+        {
+            "id": "7cbc464e085d4cd6",
+            "type": "http response",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "statusCode": "",
+            "headers": {},
+            "x": 1570,
+            "y": 200,
+            "wires": []
+        },
+        {
+            "id": "7735fe521e303f6b",
+            "type": "function",
+            "z": "8cdf5814effa408c",
+            "name": "Change Variable",
+            "func": "\n\nString.prototype.format = function () {\n    if (arguments.length == 0) return this;\n    var param = arguments[0];\n    var s = this;\n    if (typeof (param) == 'object') {\n        for (var key in param)\n            s = s.replace(new RegExp(\"\\\\{\" + key + \"\\\\}\", \"g\"), param[key]);\n        return s;\n    } else {\n        for (var i = 0; i < arguments.length; i++)\n            s = s.replace(new RegExp(\"\\\\{\" + i + \"\\\\}\", \"g\"), arguments[i]);\n        return s;\n    }\n};\n\n\nvar vars_all = {\n    chassis_id: msg.req.query[\"chassis_id\"] || \"\",\n    board_id: msg.req.query[\"board_id\"] || \"\",\n    drive_id: msg.req.query[\"drive_id\"] || \"\",\n    networkadapter_id: msg.req.query[\"networkadapter_id\"] || \"\",\n    pciedevices_id: msg.req.query[\"pciedevices_id\"] || \"\",\n    function_id: msg.req.query[\"function_id\"] || \"\",\n    system_id: msg.req.query[\"system_id\"] || \"\",\n    cpu_id: msg.req.query[\"cpu_id\"] || \"\",\n    memory_id: encodeURIComponent(msg.req.query[\"memory_id\"] || \"\"),\n    networkadapter_id: msg.req.query[\"networkadapter_id\"] || \"\",\n    raid_id: msg.req.query[\"raid_id\"] || \"\",\n    volume_id: msg.req.query[\"volume_id\"] || \"\",\n    logservice_id: msg.req.query[\"logservice_id\"] || \"\",\n    entry_id: msg.req.query[\"entry_id\"] || \"\",\n    manager_id: msg.req.query[\"manager_id\"] || \"\",\n    networkinterface_id: encodeURIComponent(msg.req.query[\"networkinterface_id\"] || \"\"),\n    serialinterface_id: msg.req.query[\"serialinterface_id\"] || \"\",\n    registries_id: msg.req.query[\"registries_id\"] || \"\",\n    user_id: msg.req.query[\"user_id\"] || \"\",\n    role_id: msg.req.query[\"role_id\"] || \"\",\n    session_id: msg.req.query[\"session_id\"] || \"\",\n    task_id: msg.req.query[\"task_id\"] || \"\",\n};\n\npath_mapping = {\n    \"/redfish\": \"/redfish\",\n    \"/redfish/v1/Chassis\": \"/redfish/v1/Chassis/{chassis_id}\", // 查询设备的机箱资源信息\n    \"/redfish/v1/Chassis/Thermal\": \"/redfish/v1/Chassis/{chassis_id}/Thermal\", // 查询指定服务器机箱的温度和风扇传感器信息,\n    \"/redfish/v1/Chassis/Power\": \"/redfish/v1/Chassis/{chassis_id}/Power\", // 查询电源信息\n    \"/redfish/v1/Chassis/Boards\": \"/redfish/v1/Chassis/{chassis_id}/Boards/{board_id}\", // 查询扩展卡信息\n    \"/redfish/v1/Chassis/Drives\": \"/redfish/v1/Chassis/{chassis_id}/Drives/{drive_id}\", // 查询指定的物理盘信息\n    \"/redfish/v1/Chassis/NetworkAdapters\": \"/redfish/v1/Chassis/{chassis_id}/NetworkAdapters/{networkadapter_id}\", // 查询指定的网络适配器资源信息\n    \"/redfish/v1/Chassis/PCIeDevices\": \"/redfish/v1/Chassis/{chassis_id}/PCIeDevices/{pciedevices_id}\", // 查询指定的 PCIE 卡设备信息\n    \"/redfish/v1/Chassis/PCIeDevices/Functions\": \"/redfish/v1/Chassis/{chassis_id}/PCIeDevices/{pciedevices_id}/Functions/{function_id}\", // 查询指定的 PCIE 卡功能信息\n    \"/redfish/v1/Systems\": \"/redfish/v1/Systems/{system_id}\", // 查询指定系统资源信息\n    \"/redfish/v1/Systems/Processors\": \"/redfish/v1/Systems/{system_id}/Processors/{cpu_id}\", // 查询指定CPU信息\n    \"/redfish/v1/Systems/Memory\": \"/redfish/v1/Systems/{system_id}/Memory/{memory_id}\", // 查询指定内存信息\n    \"/redfish/v1/Systems/NetworkAdapters\": \"/redfish/v1/Systems/{system_id}/NetworkAdapters/{networkadapter_id}\", // 查询指定网络适配器信息\n    \"/redfish/v1/Systems/Storage\": \"/redfish/v1/Systems/{system_id}/Storage/{raid_id}\", // 查询指定的 RAID 卡信息\n    \"/redfish/v1/Systems/Storage/Drives\": \"/redfish/v1/Systems/{system_id}/Storage/Drives/{drive_id}\", // 查询指定磁盘信息(貌似是dell服务器特有)\n    \"/redfish/v1/Systems/Storages/volume\": \"/redfish/v1/Systems/{system_id}/Storages/{raid_id}/Volumes/{volume_id}\", // 删除逻辑盘信息\n    \"/redfish/v1/Systems/LogServices\": \"/redfish/v1/Systems/{system_id}/LogServices/{logservice_id}\", // 查询指定事件日志服务集合资源信息\n    \"/redfish/v1/Systems/LogServices/Entries\": \"/redfish/v1/Systems/{system_id}/LogServices/{logservice_id}/Entries/{entry_id}\", // 查询事件日志资源信息\n    \"/redfish/v1/Managers\": \"/redfish/v1/Managers/{manager_id}\", // 查询服务器指定管理资源信息\n    \"/redfish/v1/Managers/EthernetInterfaces\": \"/redfish/v1/Managers/{manager_id}/EthernetInterfaces/{networkinterface_id}\", // 查询指定网口信息\n    \"/redfish/v1/Managers/SerialInterfaces\": \"/redfish/v1/Managers/{manager_id}/SerialInterfaces/{serialinterface_id}\", // 查询指定串口信息\n    \"/redfish/v1/Registries\": \"/redfish/v1/Registries/{registries_id}\", // 查询服务器当前具体的消息归档文件资源\n    \"/redfish/v1/AccountService/Accounts\":\"/redfish/v1/redfish/v1/AccountService/Accounts/{user_id}\", // 查询指定用户信息\n    \"/redfish/v1/AccountService/Roles\":\"/redfish/v1/AccountService/Roles/{role_id}\", // 查询指定角色信息\n    \"/redfish/v1/Sessions\": \"/redfish/v1/Sessions\",\n    \"/redfish/v1/SessionService\": \"/redfish/v1/SessionService\",\n    \"/redfish/v1/SessionService/Sessions\":\"/redfish/v1/SessionService/Sessions/{session_id}\", // 查询服务器当前指定会话资源信息\n    \"/redfish/v1/TaskService/Tasks\": \"/redfish/v1/TaskService/Tasks/{task_id}\" // 查询服务器指定任务资源的信息\n};\n\nvar address = msg.req.query[\"address\"];\nvar path_key = msg.req.path;\nvar path_str = path_mapping[path_key];\nvar path_real = path_str.format(vars_all);\nmsg.url = \"https://\" + address + path_real;\n\nmsg.method = msg.req.method;\n\nvar user = msg.req.body[\"UserName\"];\nif(user == \"\" || typeof(user) ==\"undefined\" ) {\n  msg.headers = msg.req.headers;\n}\n\nmsg.payload[\"X-Auth-Token\"]=\"\"\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 1000,
+            "y": 200,
+            "wires": [
+                [
+                    "3cb5d808b2c2b087",
+                    "b40d94c00c303a35"
+                ]
+            ]
+        },
+        {
+            "id": "cd5dabfe620eeb69",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "低版本获取token",
+            "info": "",
+            "x": 220,
+            "y": 140,
+            "wires": []
+        },
+        {
+            "id": "1f5507dc9173b108",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Sessions",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 450,
+            "y": 180,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "6594d8c969a26df1",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "查询session集合",
+            "info": "",
+            "x": 220,
+            "y": 180,
+            "wires": []
+        },
+        {
+            "id": "4eccfe1c7bf04e20",
+            "type": "debug",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "active": true,
+            "tosidebar": true,
+            "console": false,
+            "tostatus": false,
+            "complete": "payload",
+            "targetType": "msg",
+            "statusVal": "",
+            "statusType": "auto",
+            "x": 1230,
+            "y": 320,
+            "wires": []
+        },
+        {
+            "id": "d6f0517fd2a7e8f5",
+            "type": "function",
+            "z": "8cdf5814effa408c",
+            "name": "Set Token",
+            "func": "token = msg.headers[\"x-auth-token\"];\nmsg.headers[\"X-Auth-Token\"] = token;\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 1360,
+            "y": 200,
+            "wires": [
+                [
+                    "7cbc464e085d4cd6",
+                    "bad2656d5e79ba33",
+                    "b8ee6503905dc08c"
+                ]
+            ]
+        },
+        {
+            "id": "bad2656d5e79ba33",
+            "type": "debug",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "active": true,
+            "tosidebar": true,
+            "console": false,
+            "tostatus": false,
+            "complete": "payload",
+            "targetType": "msg",
+            "statusVal": "",
+            "statusType": "auto",
+            "x": 1522.8958740234375,
+            "y": 116.88888549804688,
+            "wires": []
+        },
+        {
+            "id": "b8ee6503905dc08c",
+            "type": "debug",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "active": true,
+            "tosidebar": true,
+            "console": false,
+            "tostatus": false,
+            "complete": "headers",
+            "targetType": "msg",
+            "statusVal": "",
+            "statusType": "auto",
+            "x": 1470,
+            "y": 320,
+            "wires": []
+        },
+        {
+            "id": "0b1539cc3c69f98e",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "查询系统内的机箱集合资源信息",
+            "info": "查询系统内的机箱集合资源信息",
+            "x": 170,
+            "y": 220,
+            "wires": []
+        },
+        {
+            "id": "b40d94c00c303a35",
+            "type": "debug",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "active": true,
+            "tosidebar": true,
+            "console": false,
+            "tostatus": false,
+            "complete": "url",
+            "targetType": "msg",
+            "statusVal": "",
+            "statusType": "auto",
+            "x": 1180,
+            "y": 80,
+            "wires": []
+        },
+        {
+            "id": "302dd7a446cc0e58",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/chassis",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 440,
+            "y": 220,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "7bb2aa68c63f98b3",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Systems/Processors",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 480,
+            "y": 260,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "ebf249e2af10e934",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Systems/Memory",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 470,
+            "y": 300,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "ab740f4036f8b532",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "Memory列表/明细",
+            "info": "",
+            "x": 220,
+            "y": 300,
+            "wires": []
+        },
+        {
+            "id": "8702bebfc255ce93",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Systems/NetworkAdapters",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 500,
+            "y": 340,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "d5c280dae560df1e",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "网络适配器列表/明细",
+            "info": "",
+            "x": 210,
+            "y": 340,
+            "wires": []
+        },
+        {
+            "id": "0f73d9f27a4468cd",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Systems/Storage",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 470,
+            "y": 380,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "cfbf9cc57b9cf134",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "RAID卡列表/明细",
+            "info": "",
+            "x": 220,
+            "y": 380,
+            "wires": []
+        },
+        {
+            "id": "88c017c833bcf741",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Systems/Storage/Drives",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 490,
+            "y": 420,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "237351dc7ef5dbe4",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "Disk明细 (maybe for Dell)",
+            "info": "",
+            "x": 190,
+            "y": 420,
+            "wires": []
+        },
+        {
+            "id": "8885b2a4c6d738c3",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Managers/EthernetInterfaces",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 510,
+            "y": 500,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "d6490407d2e01b79",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "以太网卡列表/明细",
+            "info": "",
+            "x": 210,
+            "y": 500,
+            "wires": []
+        },
+        {
+            "id": "7227d98eebc9ffee",
+            "type": "http in",
+            "z": "8cdf5814effa408c",
+            "name": "",
+            "url": "/redfish/v1/Managers",
+            "method": "get",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": 450,
+            "y": 460,
+            "wires": [
+                [
+                    "7735fe521e303f6b"
+                ]
+            ]
+        },
+        {
+            "id": "2cc3242848b4149b",
+            "type": "comment",
+            "z": "8cdf5814effa408c",
+            "name": "管理资源信息",
+            "info": "",
+            "x": 230,
+            "y": 460,
+            "wires": []
         }
     ]
